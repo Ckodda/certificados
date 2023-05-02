@@ -33,7 +33,7 @@ class CertificadoController extends Controller
         // $alumno = Alumno::findOrFail($request->input('alumno'));
         // // dd($request->hasFile('file'));
         if($request->hasFile('file')){
-            $file = Storage::putFile('certificados',$request->file('file'));
+            $file = Storage::disk('public')->put('certificados',$request->file('file'));
             
             $certificado = new Certificado();
             $certificado->id_alumno = $alumno->id;

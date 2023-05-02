@@ -1,4 +1,4 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
     <section>
         <div class="container">
@@ -34,12 +34,31 @@
                         </div>
                     @endif
 
-                    <div class="text-end">
-                        <a class="btn btn-secondary" href="{{ route('certificado.create', ['alumno' => $alumno->id]) }}">Añadir
-                            nuevo certificado</a>
+                    <div class="text-end row">
+                        <div class="col">
+                            <form action="" method="get">
+                                @csrf
+                                <div class="row justify-content-start">
+
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Buscar" />
+                                    </div>
+                                    <div class="col-md-4 text-start">
+                                        <button class="btn btn-light" type="submit"> Buscar </button>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="btn btn-secondary"
+                                href="{{ route('certificado.create', ['alumno' => $alumno->id]) }}">+
+                                nuevo certificado</a>
+                        </div>
                     </div>
                     <div class="table-responsive">
-                            
+
                         <table class="table">
                             <thead>
                                 <tr>
@@ -58,8 +77,17 @@
                                         <td>{{ $certificado->id }}</td>
                                         <td>{{ $alumno->nombre }}</td>
                                         <td>{{ $certificado->nombre }}</td>
-                                        <td>{{ $certificado->file }} </td>
-                                        <td></td>
+                                        <td>
+                                            <a href="{{ asset('/public/' . $certificado->file) }}" target="_blank"
+                                                class="btn btn-light shadow-sm"> Ver </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('certificado.edit', ['certificado' => $certificado->id, 'alumno' => $alumno->id]) }}"
+                                                class="btn btn-outline-secondary">Editar</a>
+                                            <button class="btn btn-outline-danger btn-delete-cert" 
+                                            data-id="{{$certificado->id}}"
+                                            >Eliminar</button>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -68,7 +96,7 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    
+
                     </div>
                 </div>
             </div>
@@ -78,4 +106,22 @@
 
         </div>
     </section>
+
+    <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">¿Está seguro de eliminar el registro?</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Eliminar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 @endsection
